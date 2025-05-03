@@ -1,23 +1,22 @@
 import React from 'react';
-import { View, Text, SafeAreaView, StatusBar } from 'react-native';
-import styles from './Style';
+import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
+import { useCameraDevice, Camera } from 'react-native-vision-camera';
+
 
 const App = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>MyEyes</Text>
-      </View>
-      
-      {/* Uygulamanızın geri kalan içeriğini buraya ekleyebilirsiniz */}
-      <View style={styles.content}>
-        <Text style={styles.contentText}>Uygulama İçeriği</Text>
-      </View>
+  
+    const device=useCameraDevice('back')
+    if (device == null) return <Text />
+    return (
+    <SafeAreaView style={{flex:1}}>
+        <Camera
+      style={StyleSheet.absoluteFill}
+      device={device}
+      isActive={true}
+    />
     </SafeAreaView>
   );
 };
 
+
 export default App;
-
-

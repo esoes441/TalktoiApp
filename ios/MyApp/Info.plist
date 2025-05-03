@@ -32,6 +32,13 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+<string>This app requires access to the camera</string>
+<key>NSMicrophoneUsageDescription</key>
+<string>This app requires access to the microphone</string>
+
+
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
