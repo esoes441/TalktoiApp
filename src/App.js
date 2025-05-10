@@ -1,62 +1,78 @@
-import React from 'react';
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native';
-import { useCameraDevice } from 'react-native-vision-camera';
-import CameraComponent from './Camera'; // Kamera bileşenini import et
+import React, { useRef, useState, useEffect } from 'react';
+import { View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
+import { Camera } from 'react-native-vision-camera';
+import CameraComponent from './CameraComponent';
 import VoiceInput from './VoiceInput';
 
 const App = () => {
-  const device = useCameraDevice('back');
+  const cameraRef = useRef();
+  const [device, setDevice] = useState(null);
 
-  if (device == null) return (
-    <SafeAreaView style={styles.container}>
-      <Text>Yükleniyor...</Text>
-    </SafeAreaView>
-  );
+  useEffect(() => {
+    const getPermissions = async () => {
+      const cameraPermission = await Camera.requestCameraPermission();
+      if (Platform.OS === 'android') {
+        await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO
+        );
+      }
+      const devices = await Camera.getAvailableCameraDevices();
+      const backCamera = devices.find((d) => d.position === 'back');
+      setDevice(backCamera);
+    };
+
+    getPermissions();
+  }, []);
+
+  const captureImage = async () => {
+    if (cameraRef.current?.capturePhoto) {
+      const photo = await cameraRef.current.capturePhoto();
+      return photo;
+    }
+    return null;
+  };
+
+  const sendToAPI = async (text, photo) => {
+    console.log('Komut:', text);
+    console.log('Fotoğraf:', photo);
+
+    // Burada form verisi oluşturulabilir:
+    const formData = new FormData();
+    formData.append('command', text);
+    formData.append('image', {
+      uri: `file://${photo.path}`, // bazı platformlarda `photo.uri` olabilir
+      type: 'image/jpeg',
+      name: 'photo.jpg',
+    });
+
+    try {
+      const response = await fetch('http://192.168.136.116:8000/analyze', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      const result = await response.json();
+      console.log('API yanıtı:', result);
+    } catch (error) {
+      console.error('API Hatası:', error);
+    }
+  };
+
+  if (!device) return null;
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Başlık */}
-      <View style={styles.header}>
-        <Text style={styles.title}>My Eyes</Text>
-      </View>
-
-      {/* Canlı kamera akışı */}
-      <View style={styles.cameraContainer}>
-        <CameraComponent device={device} />
-      </View>
-
-      {/* Alt bileşen */}
-      <View style={styles.bottomComponent}>
-        <VoiceInput />  
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <CameraComponent ref={cameraRef} device={device} />
+      <VoiceInput sendToAPI={sendToAPI} captureImage={captureImage} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    height: 80, // Başlık için sabit yükseklik
-    paddingTop: 20, // Başlık ve ekran arasındaki boşluğu ayarla
-    backgroundColor: '#fff', // Başlık arka planını beyaz yap
-    alignItems: 'center', // Başlığı ortala
-    justifyContent: 'center', // Başlığı dikeyde ortala
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold', // Başlığı kalın yap
-    color: '#000', // Başlık rengini siyah yap
-  },
-  cameraContainer: {
-    flex: 5, // Kameranın ekranın çoğunu kaplamasını sağla
-  },
-  bottomComponent: {
-    flex: 2, // Alt bileşene daha fazla yer ayırmak için flex
-    padding: 20,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
   },
 });
 

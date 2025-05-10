@@ -2,14 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import Voice from '@react-native-voice/voice';
 
-const VoiceInput = () => {
+const VoiceInput = ({ sendToAPI, captureImage }) => {
   const [recording, setRecording] = useState(false);
   const [recognizedText, setRecognizedText] = useState('');
 
   useEffect(() => {
-    Voice.onSpeechResults = (result) => {
+    Voice.onSpeechResults = async (result) => {
       if (result.value && result.value[0]) {
-        setRecognizedText(result.value[0]);
+        const text = result.value[0];
+        setRecognizedText(text);
+
+        const photo = await captureImage();
+        if (photo) {
+          await sendToAPI(text, photo);
+        } else {
+          console.warn("Fotoğraf çekilemedi");
+        }
       }
     };
 
@@ -20,7 +28,7 @@ const VoiceInput = () => {
     return () => {
       Voice.destroy().then(() => Voice.removeAllListeners());
     };
-  }, []);
+  }, [sendToAPI, captureImage]);
 
   const startRecording = async () => {
     try {
@@ -53,13 +61,12 @@ const VoiceInput = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.button, !!recording && styles.buttonActive]} // Çift ünlem kullanarak güvenli kontrol
+        style={[styles.button, recording && styles.buttonActive]}
         onPressIn={startRecording}
         onPressOut={stopRecording}
       >
-        <Text style={styles.buttonText}>{!!recording ? 'Dinleniyor...' : 'Bas ve Konuş'}</Text> 
+        <Text style={styles.buttonText}>{recording ? 'Dinleniyor...' : 'Bas ve Konuş'}</Text>
       </TouchableOpacity>
-
       <Text style={styles.resultText}>{recognizedText}</Text>
     </View>
   );
