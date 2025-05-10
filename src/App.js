@@ -3,10 +3,12 @@ import { View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import { Camera } from 'react-native-vision-camera';
 import CameraComponent from './CameraComponent';
 import VoiceInput from './VoiceInput';
+import VoiceOutput from './VoiceOutput';
 
 const App = () => {
   const cameraRef = useRef();
   const [device, setDevice] = useState(null);
+  const [apiMessage, setApiMessage] = useState('');  // API mesajı
 
   useEffect(() => {
     const getPermissions = async () => {
@@ -55,6 +57,9 @@ const App = () => {
       });
       const result = await response.json();
       console.log('API yanıtı:', result);
+      // API'den gelen mesajı sesli okuma
+      setApiMessage(result.message);
+ // API mesajını güncelle
     } catch (error) {
       console.error('API Hatası:', error);
     }
@@ -66,6 +71,7 @@ const App = () => {
     <View style={styles.container}>
       <CameraComponent ref={cameraRef} device={device} />
       <VoiceInput sendToAPI={sendToAPI} captureImage={captureImage} />
+      <VoiceOutput message={apiMessage} />
     </View>
   );
 };
