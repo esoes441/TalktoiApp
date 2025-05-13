@@ -78,17 +78,4 @@ const VoiceOutput = ({ message }) => {
 };
 
 export default VoiceOutput;
-/*
-const VoiceOutput = ({ message }) => {
-  useEffect(() => {
-    if (message) {
-      console.log("TTS Mesajı:", message);  // <-- debug için
-      Tts.stop();
-      Tts.speak(message);
-    }
-  }, [message]);
-
-  return null;
-};
-*/
 
