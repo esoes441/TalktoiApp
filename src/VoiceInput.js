@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flex: 1,
     paddingBottom: 10,
-    backgroundColor: '#060640',
+    backgroundColor: '#dbead5',
     marginTop: 16,
   },
 button: {
-  backgroundColor: '#cc5500', // koyu turuncu
-  paddingVertical: 24,
-  paddingHorizontal: 38,
-  borderRadius: 30,
+  backgroundColor: '#6eaa5e', // koyu turuncu
+  paddingVertical: 26,
+  paddingHorizontal: 46,
+  borderRadius: 15,
   marginTop: 20,
   width: '87%',
   alignItems: 'center',
@@ -108,15 +108,15 @@ button: {
   shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.3,
   shadowRadius: 5,
-  borderWidth: 1,
-  borderColor: '#fff', // Beyaz çerçeve
+  borderWidth: 3,
+  borderColor: '#469536', // Beyaz çerçeve
 },
 buttonActive: {
   backgroundColor: '#ff6600',
   borderColor: '#ffffff',
 },
 buttonText: {
-  color: '#fff',
+  color: '#ffffff',
   fontSize: 22,
   fontWeight: '600',
   letterSpacing: 1,
@@ -124,7 +124,7 @@ buttonText: {
   resultText: {
     marginTop: 20,
     fontSize: 16,
-    color: '#ffffff',
+    color: '#469536',
     fontWeight: 'bold',
     bottom: 15,
   },

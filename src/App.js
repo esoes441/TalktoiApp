@@ -97,10 +97,10 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0a0a5c',
+    backgroundColor: '#dbead5',
   },
   header: {
-    backgroundColor: '#060640',
+    backgroundColor: '#469536',
     paddingTop: Platform.OS === 'ios' ? 40 : 20,
     paddingBottom: 6,
     justifyContent: 'center',
@@ -118,16 +118,16 @@ const styles = StyleSheet.create({
     height: 480,
     marginHorizontal: 16,
     marginTop: 16,
-    borderRadius: 16,
+    borderRadius: 12,
     overflow: 'hidden',
-    backgroundColor: '#000',
+    backgroundColor: '#c1c3d1',
     elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
-    borderWidth: 1,
-    borderColor: '#fff',
+    borderWidth: 4,
+    borderColor: '#469536',
   },
 });
 
