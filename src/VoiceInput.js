@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  PermissionsAndroid,
+  Platform,
+  Vibration
+} from 'react-native';
+import Tts from 'react-native-tts';
 import Voice from '@react-native-voice/voice';
 
 const VoiceInput = ({ sendToAPI, captureImage }) => {
@@ -16,13 +25,13 @@ const VoiceInput = ({ sendToAPI, captureImage }) => {
         if (photo) {
           await sendToAPI(text, photo);
         } else {
-          console.warn("Fotoğraf çekilemedi");
+          console.warn('Fotoğraf çekilemedi');
         }
       }
     };
 
     Voice.onSpeechError = (error) => {
-      console.error('Voice Error:', error);
+      Tts.speak('Ses alınamadı. Lütfen tekrar deneyin.');
     };
 
     return () => {
@@ -42,6 +51,7 @@ const VoiceInput = ({ sendToAPI, captureImage }) => {
         }
       }
 
+      Vibration.vibrate(100); // 100 ms titreşim
       await Voice.start('tr-TR');
       setRecording(true);
     } catch (e) {
@@ -65,7 +75,9 @@ const VoiceInput = ({ sendToAPI, captureImage }) => {
         onPressIn={startRecording}
         onPressOut={stopRecording}
       >
-        <Text style={styles.buttonText}>{recording ? 'Dinleniyor...' : 'Bas ve Konuş'}</Text>
+        <Text style={styles.buttonText}>
+          {recording ? 'Dinleniyor...' : 'Bas ve Konuş'}
+        </Text>
       </TouchableOpacity>
       <Text style={styles.resultText}>{recognizedText}</Text>
     </View>
@@ -75,24 +87,46 @@ const VoiceInput = ({ sendToAPI, captureImage }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    justifyContent: 'flex-end',
+    flex: 1,
+    paddingBottom: 10,
+    backgroundColor: '#060640',
+    marginTop: 16,
   },
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 15,
-    borderRadius: 25,
-    marginTop: 20,
-  },
-  buttonActive: {
-    backgroundColor: '#FF3B30',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-  },
+button: {
+  backgroundColor: '#cc5500', // koyu turuncu
+  paddingVertical: 24,
+  paddingHorizontal: 38,
+  borderRadius: 30,
+  marginTop: 20,
+  width: '87%',
+  alignItems: 'center',
+  position: 'absolute',
+  bottom: 60,
+  elevation: 10, // Android gölge
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.3,
+  shadowRadius: 5,
+  borderWidth: 1,
+  borderColor: '#fff', // Beyaz çerçeve
+},
+buttonActive: {
+  backgroundColor: '#ff6600',
+  borderColor: '#ffffff',
+},
+buttonText: {
+  color: '#fff',
+  fontSize: 22,
+  fontWeight: '600',
+  letterSpacing: 1,
+},
   resultText: {
     marginTop: 20,
     fontSize: 16,
-    color: '#000',
+    color: '#ffffff',
+    fontWeight: 'bold',
+    bottom: 15,
   },
 });
 
