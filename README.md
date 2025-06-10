@@ -9,15 +9,15 @@ About the projectThe mobile application captures voice commands from the user, c
 On the server side, object detection and depth analysis are performed to determine the direction, and location information for the target object specified by the user is generated.
 This information is then sent back to the mobile application and conveyed to the user through text-to-speech technology.
 
-Technologies Setup
-Environment: VS Code
-Testing Environment: Android Studio + Physical Device
-Frontend Language: React Native CLI
-Backend Language: Python
-API Used: FastAPI
-Communication Protocol: HTTP
-Object Detection: YOLOv8
-Depth Estimation: Size of Scale
+Technologies Setup, 
+Environment: VS Code, 
+Testing Environment: Android Studio + Physical Device,
+Frontend Language: React Native CLI,
+Backend Language: Python,
+API Used: FastAPI,
+Communication Protocol: HTTP,
+Object Detection: YOLOv8,
+Depth Estimation: Size of Scale,
 Core Frontend Libraries: react-native-tts, react-native-stt
 
 Evaluation of Project Success
