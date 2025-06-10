@@ -6,7 +6,7 @@ import VoiceInput from './VoiceInput';
 import VoiceOutput from './VoiceOutput';
 import RNFS from 'react-native-fs';
 import Tts from 'react-native-tts';
-
+//
 const App = () => {
   const cameraRef = useRef();
   const [device, setDevice] = useState(null);
@@ -58,7 +58,7 @@ const App = () => {
     });
 
     try {
-      const response = await fetch('https://a047-178-241-112-109.ngrok-free.app/analyze ', {
+      const response = await fetch('http://ip adresi:port no/analyze', {
         method: 'POST',
         body: formData,
         headers: {
@@ -72,7 +72,7 @@ const App = () => {
       // Artık mesaj yerine TAM CEVABI kaydediyoruz
       setApiResult(result);
     } catch (error) {
-      Tts.speak('Sunucuya bağlanılamadı. Tekrar deneyiniz.');
+      Tts.speak('Bu nesne yönlendirmesi uygulamada yer almamaktadır.');
     }
   };
 

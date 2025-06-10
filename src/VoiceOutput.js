@@ -10,9 +10,9 @@ const objectLabels = {
 };
 
 const directionLabels = {
-  sol: "solda",
-  sağ: "sağda",
-  ön: "önünde"
+  sol: "solunuzda",
+  sağ: "sağınızda",
+  ön: "önünüzde"
 };
 
 
