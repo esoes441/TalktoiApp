@@ -1,6 +1,13 @@
 <<<<<<< HEAD
 # TalktoiApp
 Guiding_app_visually_impaired_invidividuals / Talktoi
+
+Contributors
+
+This project was carried out by a team of two people:
+
+Fatıma Zehra Özyürek,
+ Esra İlman
  
 Aim of the Application
 
